@@ -1,19 +1,26 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template import loader
 from django.http import HttpResponse
 from AppCoder.models import Curso
 
+def inicio(request):
+    return HttpResponse("Vista Inicio")
 
-def curso(request, nombre, camada):
-    cur = Curso(nombre=nombre, camada=camada)
-    cur.save()
-
-    plantilla = loader.get_template('curso.html')
-
+def cursos(request):
     contexto = {
-        "nombre": cur.nombre,
-        "camada": cur.camada
+        'cursos' : {
+            'curso1': 'Nombre1',
+            'curso2': 'Nombre2',
+            'curso3': 'Nombre3',
+        }
     }
+    return render(request, 'cursos.html', contexto)
 
-    documento = plantilla.render(contexto)
-    return HttpResponse(documento)
+def profesores(request):
+    return render(request, 'profesores.html',)
+
+def estudiantes(request):
+    return redirect('AppCoderInicio')
+
+def entregables(request):
+    return HttpResponse("Vista Entregables")
